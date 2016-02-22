@@ -1,0 +1,76 @@
+{
+  "contexts": [
+    {
+      "entities": [
+        {
+          "schema": {
+            "title": "Client",
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string"
+              }
+            }
+          },
+          "items": [
+            {
+              "firstName": "Steve"
+            }
+          ]
+        },
+        {
+          "schema": {
+            "title": "Product",
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string"
+              }
+            }
+          },
+          "items": [
+            {
+              "ticker": "AAPL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entities": [
+        {
+          "schema": {
+            "title": "Client",
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string"
+              }
+            }
+          },
+          "items": [
+            {
+              "firstName": "Steve"
+            }
+          ]
+        },
+        {
+          "schema": {
+            "title": "Product",
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string"
+              }
+            }
+          },
+          "items": [
+            {
+              "ticker": "AAPL"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
