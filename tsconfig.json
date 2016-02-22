@@ -21,8 +21,6 @@
     "client/bootstrap.ts",
     "client/src/app.ts",
     "client/src/context-store.ts",
-    "client/src/items.spec.ts",
-    "client/src/items.ts",
     "client/vendor.ts"
   ]
 }
