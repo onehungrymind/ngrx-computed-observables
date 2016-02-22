@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'a
 import {ItemsService, Item, AppStore} from './items';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
-import {Context, contextsMap, contextChildrenMap} from './contexts'
+import {Context, contextsMap, contextChildrenMap} from './contexts';
 
 //-------------------------------------------------------------------
 // ENTITY CONTEXT
@@ -11,7 +11,7 @@ import {Context, contextsMap, contextChildrenMap} from './contexts'
     selector: 'entity-context',
     template: `
   <div class="mdl-card__supporting-text">
-    <h4>Product</h4>
+    <h4>Product Component</h4>
   </div>
   `
 })
@@ -27,7 +27,7 @@ export class EntityContext {
     template: `
     <div class="mdl-card__supporting-text">
         <div class="mdl-cell mdl-cell--12-col">
-          <h4>Tab</h4>
+          <h4>Tab(Product)</h4>
         </div>
         <entity-context [class]="mdlClasses"></entity-context>
         <entity-context [class]="mdlClasses"></entity-context>

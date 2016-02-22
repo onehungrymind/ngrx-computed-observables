@@ -14,13 +14,13 @@ export interface Context {
 
 export const contextsMap = new Map();
 
-contextsMap.set(0, {name: 'Main Context'});
-contextsMap.set(10, {name: 'Session Context 01'});
-contextsMap.set(20, {name: 'Session Context 02'});
-contextsMap.set(100, {name: 'Entity 01'});
-contextsMap.set(200, {name: 'Entity 02'});
-contextsMap.set(300, {name: 'Entity 03'});
-contextsMap.set(400, {name: 'Entity 04'});
+contextsMap.set(0, {name: 'Platform'});
+contextsMap.set(10, {name: 'AAPL'});
+contextsMap.set(20, {name: 'MSFT'});
+contextsMap.set(100, {name: 'AAPL Analytics'});
+contextsMap.set(200, {name: 'AAPL Recent News'});
+contextsMap.set(300, {name: 'MSFT Analytics'});
+contextsMap.set(400, {name: 'MSFT Recent News'});
 
 export const contextChildrenMap = new Map();
 
