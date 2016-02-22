@@ -7,14 +7,14 @@ import {Context, Session, AppStore} from './context-store';
 // ENTITY CONTEXT
 //-------------------------------------------------------------------
 @Component({
-    selector: 'entity-context',
+    selector: 'rj-capability',
     template: `
   <div class="mdl-card__supporting-text">
     <h4>{{capability}}</h4>
   </div>
   `
 })
-export class EntityContext {
+export class RJCapability {
     @Input() capability: String;
 }
 
@@ -22,18 +22,18 @@ export class EntityContext {
 // SESSION CONTEXT
 //-------------------------------------------------------------------
 @Component({
-    selector: 'session-context',
-    directives: [EntityContext],
+    selector: 'rj-tab',
+    directives: [RJCapability],
     template: `
     <div class="mdl-card__supporting-text">
         <div class="mdl-cell mdl-cell--12-col">
           <h4>Tab({{session.entity}})</h4>
         </div>
-        <entity-context *ngFor="#capability of session.capabilities" [capability]="capability" [class]="mdlClasses"></entity-context>
+        <rj-capability *ngFor="#capability of session.capabilities" [capability]="capability" [class]="mdlClasses"></rj-capability>
     </div>
     `
 })
-export class SessionContext {
+export class RJTab {
     mdlClasses: String = 'mdl-card mdl-color--blue-100 mdl-shadow--2dp mdl-cell mdl-cell--12-col';
     @Input() session: Session;
 }
@@ -44,12 +44,12 @@ export class SessionContext {
 //-------------------------------------------------------------------
 @Component({
     selector: 'main-context',
-    directives: [SessionContext],
+    directives: [RJTab],
     template: `
     <div class="mdl-cell mdl-cell--12-col">
         <h3>Platform</h3>
     </div>
-    <session-context *ngFor="#session of context.sessions" [session]="session" [class]="mdlClasses"></session-context>
+    <rj-tab *ngFor="#session of context.sessions" [session]="session" [class]="mdlClasses"></rj-tab>
     `
 })
 export class MainContext {
