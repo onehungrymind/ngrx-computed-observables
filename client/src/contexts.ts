@@ -2,10 +2,30 @@ import {Injectable} from 'angular2/core';
 import {Reducer, Action} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 
-
 export interface Context {
   name: String;
 }
+
+let appModel: Object = {
+  "sessions": [
+    {
+      "type": "Product",
+      "entity": "MSFT",
+      "capabilities": [
+        "analytics",
+        "recent-news"
+      ]
+    },
+    {
+      "type": "Product",
+      "entity": "AAPL",
+      "capabilities": [
+        "analytics",
+        "recent-news"
+      ]
+    }
+  ]
+};
 
 //-------------------------------------------------------------------
 // IDEA: Keep a normalized map of ALL the contexts
