@@ -40,26 +40,36 @@ export class RJTab {
 
 
 //-------------------------------------------------------------------
+// ACTIONS
+//-------------------------------------------------------------------
+@Component({
+  selector: 'rj-drop-down',
+  template: `
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+      <input class="mdl-textfield__input" value="John Smith - FA" type="text" id="client" readonly tabIndex="-1" />
+      <label class="mdl-textfield__label" for="client">Client</label>
+      <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="client">
+        <li class="mdl-menu__item">John Smith - FA</li>
+        <li class="mdl-menu__item">Jane Doe - Assistant</li>
+      </ul>
+    </div>
+  `
+})
+export class RJDropDown { }
+
+//-------------------------------------------------------------------
 // MAIN CONTEXT
 //-------------------------------------------------------------------
 @Component({
   selector: 'main-context',
-  directives: [RJTab],
+  directives: [RJTab, RJDropDown],
   template: `
     <div class="mdl-grid mdl-cell mdl-cell--12-col">
         <div class="mdl-cell mdl-cell--10-col">
           <h3>Platform</h3>
         </div>
         <div class="mdl-cell mdl-cell--2-col">
-          <!-- TODO Convert this to a component and emit actions -->
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-            <input class="mdl-textfield__input" value="John Smith - FA" type="text" id="client" readonly tabIndex="-1" />
-            <label class="mdl-textfield__label" for="client">Client</label>
-            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="client">
-              <li class="mdl-menu__item">John Smith - FA</li>
-              <li class="mdl-menu__item">Jane Doe - Assistant</li>
-            </ul>
-          </div>
+          <rj-drop-down></rj-drop-down>
         </div>
     </div>
     <rj-tab *ngFor="#session of context.sessions" [session]="session" [class]="mdlClasses"></rj-tab>
