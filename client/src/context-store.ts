@@ -7,44 +7,84 @@ export interface AppStore {
 }
 
 export interface Context {
-  sessions: Object[];
+  sessions: Session[];
+}
+
+export interface Capability {
+  id: Number;
+  entity: String;
+  title: String;
 }
 
 export interface Session {
+  id: Number;
   type: String;
   entity: String;
-  capabilities: String[];
+  capabilities: Capability[];
 }
 
 export const mockContext: Context = {
   'sessions': [
     {
-      'type': 'Product',
-      'entity': 'MSFT',
-      'capabilities': [
-        'analytics',
-        'recent-news'
-        ]
-      },
+      id: 1,
+      type: 'Product',
+      entity: 'MSFT',
+      capabilities: [
+        { id: 10, entity: 'recent-news', title: 'Recent News'},
+        { id: 20, entity: 'analytics', title: 'Analytics'}
+      ]
+    },
     {
-      'type': 'Product',
-      'entity': 'AAPL',
-      'capabilities': [
-        'analytics',
-        'recent-news'
-        ]
-      }
-    ]
+      id: 2,
+      type: 'Product',
+      entity: 'AAPL',
+      capabilities: [
+        { id: 30, entity: 'analytics', title: 'Analytics'},
+        { id: 40, entity: 'recent-news', title: 'Recent News'}
+      ]
+    }]
   };
 
-// NOTE: Putting on the shelf for now
-//export const contextMap = new Map();
-//let actionMethod = contextMap.get(action.type);
-//return actionMethod ? actionMethod(state, action) : state;
+export const SUBSCRIBE_CAPABILITY = 'SUBSCRIBE_CAPABILITY';
+export const DUPLICATE_CAPABILITY = 'DUPLICATE_CAPABILITY';
+export const UPDATE_CAPABILITY = 'UPDATE_CAPABILITY';
 
-export const context: Reducer<Context> = (state: Context, action: Action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
+export interface Action {
+  label: String;
+  activity: String;
+}
+
+export const ActionsMap = new Map();
+ActionsMap.set('analytics', [{label: 'Duplicate', activity: DUPLICATE_CAPABILITY}]);
+ActionsMap.set('recent-news', [{label: 'Update', activity: UPDATE_CAPABILITY}, {label: 'Subscribe', activity: SUBSCRIBE_CAPABILITY}]);
+
+export const contextMap = new Map();
+
+contextMap.set(SUBSCRIBE_CAPABILITY, (state: Context, action: Action) => {
+  console.log('Capability subscribed!');
+  return state;
+});
+
+contextMap.set(DUPLICATE_CAPABILITY, (state: Context, action: Action) => {
+  // HACK ALERT START!
+  // FIND OUT WHAT SESSION THIS PRODUCT BELONGS TO
+  let currentSession: Session;
+  state.sessions.forEach(session => {
+    session.capabilities.forEach(capability => { if (capability.id === action.payload.id) currentSession = session; });
+  });
+
+  currentSession.capabilities = currentSession.capabilities.concat(Object.assign({}, action.payload));
+  // HACK ALERT END!
+  console.log('Capability duplicated!');
+  return state;
+});
+
+contextMap.set(UPDATE_CAPABILITY, (state: Context, action: Action) => {
+  console.log('Capability updated!');
+  return state;
+});
+
+export const context: Reducer<Context> = (state: Context, action: Action  ) => {
+  let actionMethod = contextMap.get(action.type);
+  return actionMethod ? actionMethod(state, action) : state;
 };

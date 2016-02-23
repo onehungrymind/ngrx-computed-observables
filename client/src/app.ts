@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
-import {Context, Session, AppStore} from './context-store';
+import {Context, Session, Capability, AppStore, Action, ActionsMap, DUPLICATE_CAPABILITY} from './context-store';
 
 //-------------------------------------------------------------------
 // ENTITY CONTEXT
@@ -9,13 +9,30 @@ import {Context, Session, AppStore} from './context-store';
 @Component({
   selector: 'rj-capability',
   template: `
+  <div class="mdl-card__title mdl-card--expand">
+    <h2 class="mdl-card__title-text">{{capability.title}}</h2>
+  </div>
   <div class="mdl-card__supporting-text">
-    <h4>{{capability}}</h4>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Aenan convallis.
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <a *ngFor="#action of actions" (click)="handle.emit({'action':action.activity, 'capability':capability}); $event.stopPropagation();"
+      class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+      {{action.label}}
+    </a>
   </div>
   `
 })
-export class RJCapability {
-  @Input() capability: String;
+export class RJCapability implements OnInit {
+  @Input() capability: Capability;
+  @Output() handle = new EventEmitter();
+
+  actions: any;
+
+  ngOnInit() {
+    this.actions = ActionsMap.get(this.capability.entity);
+  }
 }
 
 //-------------------------------------------------------------------
@@ -29,15 +46,23 @@ export class RJCapability {
         <div class="mdl-cell mdl-cell--12-col">
           <h4>Tab({{session.entity}})</h4>
         </div>
-        <rj-capability *ngFor="#capability of session.capabilities" [capability]="capability" [class]="mdlClasses"></rj-capability>
+        <rj-capability *ngFor="#capability of session.capabilities"
+        [capability]="capability" (handle)="handleAction($event)"
+        duplicate
+        [class]="mdlClasses"></rj-capability>
     </div>
     `
 })
 export class RJTab {
-  mdlClasses: String = 'mdl-card mdl-color--blue-100 mdl-shadow--2dp mdl-cell mdl-cell--12-col';
+  mdlClasses: String = 'mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col';
   @Input() session: Session;
-}
 
+  constructor(private store: Store<AppStore>) { }
+
+  handleAction(event: any) {
+    this.store.dispatch({type: event.action, payload: event.capability});
+  }
+}
 
 //-------------------------------------------------------------------
 // ACTIONS
