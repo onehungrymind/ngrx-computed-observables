@@ -54,18 +54,19 @@ export interface Action {
   activity: String;
 }
 
+// CAPABILITIES ACTION MAP
 export const ActionsMap = new Map();
 ActionsMap.set('analytics', [{label: 'Duplicate', activity: DUPLICATE_CAPABILITY}]);
 ActionsMap.set('recent-news', [{label: 'Update', activity: UPDATE_CAPABILITY}, {label: 'Subscribe', activity: SUBSCRIBE_CAPABILITY}]);
 
-export const contextMap = new Map();
-
-contextMap.set(SUBSCRIBE_CAPABILITY, (state: Context, action: Action) => {
+// REDUCER ACTIONS
+export const contextActionMap = new Map();
+contextActionMap.set(SUBSCRIBE_CAPABILITY, (state: Context, action: Action) => {
   console.log('Capability subscribed!');
   return state;
 });
 
-contextMap.set(DUPLICATE_CAPABILITY, (state: Context, action: Action) => {
+contextActionMap.set(DUPLICATE_CAPABILITY, (state: Context, action: Action) => {
   // HACK ALERT START!
   // FIND OUT WHAT SESSION THIS PRODUCT BELONGS TO
   let currentSession: Session;
@@ -79,12 +80,13 @@ contextMap.set(DUPLICATE_CAPABILITY, (state: Context, action: Action) => {
   return state;
 });
 
-contextMap.set(UPDATE_CAPABILITY, (state: Context, action: Action) => {
+contextActionMap.set(UPDATE_CAPABILITY, (state: Context, action: Action) => {
   console.log('Capability updated!');
   return state;
 });
 
+// REDUCER
 export const context: Reducer<Context> = (state: Context, action: Action  ) => {
-  let actionMethod = contextMap.get(action.type);
+  let actionMethod = contextActionMap.get(action.type);
   return actionMethod ? actionMethod(state, action) : state;
 };
