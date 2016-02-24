@@ -116,12 +116,16 @@ export class RJDropDown {
           <rj-drop-down></rj-drop-down>
         </div>
     </div>
+    <!-- TODO Get trackBy working
+    <rj-tab *ngFor="#session of context.sessions;trackBy:track" [session]="session" [class]="mdlClasses"></rj-tab>
+    -->
     <rj-tab *ngFor="#session of context.sessions" [session]="session" [class]="mdlClasses"></rj-tab>
     `
 })
 export class MainContext {
   mdlClasses: String = 'mdl-card mdl-color--blue-50 mdl-shadow--2dp mdl-cell mdl-cell--6-col';
   @Input() context: Context;
+  track(index) { return index; }
 }
 
 //-------------------------------------------------------------------
