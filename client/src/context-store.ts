@@ -102,11 +102,12 @@ contextActionMap.set(DUPLICATE_CAPABILITY, (state: any = [], action: Action) => 
     session.capabilities.forEach(capability => { if (capability.id === action.payload.id) currentSession = session; });
   });
 
+  let newCapabilities = currentSession.capabilities.concat(Object.assign({}, action.payload));
+  let newSession: Session = Object.assign({}, currentSession, {capabilities: newCapabilities})
+
   console.log('Capability duplicated!');
   return state.map(session => {
-    return currentSession.id === session.id ? Object.assign({},
-      session, {capabilities: session.capabilities.concat(Object.assign({}, action.payload))})
-      : session;
+    return currentSession.id === session.id ? newSession : session;
   });
 });
 
