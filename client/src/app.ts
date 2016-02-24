@@ -116,10 +116,7 @@ export class RJDropDown {
           <rj-drop-down></rj-drop-down>
         </div>
     </div>
-    <!-- TODO Get trackBy working
     <rj-tab *ngFor="#session of context.sessions;trackBy:track" [session]="session" [class]="mdlClasses"></rj-tab>
-    -->
-    <rj-tab *ngFor="#session of context.sessions" [session]="session" [class]="mdlClasses"></rj-tab>
     `
 })
 export class MainContext {
