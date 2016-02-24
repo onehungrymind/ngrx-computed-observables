@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
-import {Context, Session, Capability, AppStore, Action, ActionsMap, DUPLICATE_CAPABILITY} from './context-store';
+import {Context, ContextService, User, Session, Capability, AppStore, Action, ActionsMap, SELECT_USER} from './context-store';
 
 //-------------------------------------------------------------------
 //  MASTER TODO LIST
@@ -82,22 +82,25 @@ export class RJTab {
   selector: 'rj-drop-down',
   template: `
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-      <input class="mdl-textfield__input" [value]="users[0].name" type="text" id="client" readonly tabIndex="-1" />
+      <input class="mdl-textfield__input" [value]="selectedUser?.name | async" type="text" id="client" readonly tabIndex="-1" />
       <label class="mdl-textfield__label" for="client">Client</label>
       <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="client">
-        <li *ngFor="#user of users" (click)="selectUser(user)" class="mdl-menu__item">{{user.name}}</li>
+        <li *ngFor="#user of users | async" (click)="selectUser(user)" class="mdl-menu__item">{{user.name}}</li>
       </ul>
     </div>
   `
 })
 export class RJDropDown {
-  users: any[] = [
-    {id: 1, name: 'John Smith - FA', role: 'FA'},
-    {id: 2, name: 'Jane Doe - Assistant', role: 'FAA'},
-  ];
+  users: Observable<Array<User>>;
+  selectedUser: Observable<User>;
+
+  constructor(private store: Store<AppStore>) {
+    this.users = store.select('users');
+    this.selectedUser = store.select('selectedUser');
+  }
 
   selectUser(user) {
-    console.log('CURRENT USER', user);
+    this.store.dispatch({type: SELECT_USER, payload: user});
   }
 }
 
@@ -140,8 +143,10 @@ export class App {
   mdlClasses: String = 'mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid';
   context: Observable<Context>;
 
-  constructor(private store: Store<AppStore>) {
-    this.context = store.select('context');
-    this.context.subscribe(c => console.log('this.context', c));
+  constructor(private contextService: ContextService) {
+    this.context = contextService.context;
+
+    this.context
+      .subscribe(c => console.log('ContextService.context', c));
   }
 }
