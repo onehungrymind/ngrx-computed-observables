@@ -21,6 +21,7 @@ export interface Session {
   type: String;
   entity: String;
   capabilities: Capability[];
+  actions?: Action[];
 }
 
 export const mockSessions: Session[] = [
@@ -46,10 +47,12 @@ export const mockSessions: Session[] = [
 export const SUBSCRIBE_CAPABILITY = 'SUBSCRIBE_CAPABILITY';
 export const DUPLICATE_CAPABILITY = 'DUPLICATE_CAPABILITY';
 export const UPDATE_CAPABILITY = 'UPDATE_CAPABILITY';
+export const ADD_TO_LIST = 'ADD_TO_LIST';
 
 export interface Action {
   label: String;
   activity: String;
+  icon?: String;
 }
 
 // USERS STORE
@@ -88,6 +91,13 @@ export const selectedUser: Reducer<User> = (state: any = null, action: Action  )
 export const ActionsMap = new Map();
 ActionsMap.set('analytics', [{label: 'Duplicate', activity: DUPLICATE_CAPABILITY}]);
 ActionsMap.set('recent-news', [{label: 'Update', activity: UPDATE_CAPABILITY}, {label: 'Subscribe', activity: SUBSCRIBE_CAPABILITY}]);
+ActionsMap.set('Product', [{label: 'Add to List', activity: ADD_TO_LIST, icon: 'list'}]);
+
+// ADD ENTITY CONTEXT ACTIONS TO MOCK SESSIONS
+// IN REAL IMPL, THIS SHOULD HAPPEN UPON SESSION INSTANTIATION
+mockSessions.forEach(function (mockSession) {
+    mockSession.actions = ActionsMap.get(mockSession.type);
+});
 
 // REDUCER ACTIONS
 export const contextActionMap = new Map();

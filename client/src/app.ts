@@ -13,6 +13,7 @@ import {Context, ContextService, User, Session, Capability, AppStore, Action, Ac
 // Clearly show how user and session context is consumed at a component level if at all
 // Clearly show event flow from component to session
 // Clearly show how changing user context will affect state down to the component level
+// Clearly show how a component can subscribe to a partial context, i.e. product.recentNews vs. entire product
 
 //-------------------------------------------------------------------
 // ENTITY CONTEXT
@@ -56,6 +57,10 @@ export class RJCapability implements OnInit {
     <div class="mdl-card__supporting-text">
         <div class="mdl-cell mdl-cell--12-col">
           <h4>Tab({{session.entity}})</h4>
+          <div *ngFor="#action of session.actions">
+            <i class="material-icons">{{action.icon}}</i>
+            <p>{{action.label}}</p>
+          </div>
         </div>
         <rj-capability *ngFor="#capability of session.capabilities"
         [capability]="capability" (handle)="handleAction($event)"
