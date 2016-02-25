@@ -18,6 +18,7 @@
     "test": "karma start"
   },
   "dependencies": {
+    "@ngrx/store": "^1.2.1",
     "angular2": "2.0.0-beta.7",
     "es6-promise": "^3.1.2",
     "es6-shim": "^0.33.3",
