@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import {Context, ContextService, User, Session, Capability, AppStore, Action, ActionsMap, SELECT_USER} from './context-store';
@@ -28,7 +28,7 @@ import {Context, ContextService, User, Session, Capability, AppStore, Action, Ac
     Aenan convallis.
   </div>
   <div class="mdl-card__actions mdl-card--border">
-    <a *ngFor="#action of actions" (click)="handle.emit({'action':action.activity, 'capability':capability}); $event.stopPropagation();"
+    <a *ngFor="let action of actions" (click)="handle.emit({'action':action.activity, 'capability':capability}); $event.stopPropagation();"
       class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
       {{action.label}}
     </a>
@@ -57,7 +57,7 @@ export class RJCapability implements OnInit {
         <div class="mdl-cell mdl-cell--12-col">
           <h4>Tab({{session.entity}})</h4>
         </div>
-        <rj-capability *ngFor="#capability of session.capabilities"
+        <rj-capability *ngFor="let capability of session.capabilities"
         [capability]="capability" (handle)="handleAction($event)"
         duplicate
         [class]="mdlClasses"></rj-capability>
@@ -85,7 +85,7 @@ export class RJTab {
       <input class="mdl-textfield__input" [value]="selectedUser?.name | async" type="text" id="client" readonly tabIndex="-1" />
       <label class="mdl-textfield__label" for="client">Client</label>
       <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="client">
-        <li *ngFor="#user of users | async" (click)="selectUser(user)" class="mdl-menu__item">{{user.name}}</li>
+        <li *ngFor="let user of users | async" (click)="selectUser(user)" class="mdl-menu__item">{{user.name}}</li>
       </ul>
     </div>
   `
@@ -95,6 +95,7 @@ export class RJDropDown {
   selectedUser: Observable<User>;
 
   constructor(private store: Store<AppStore>) {
+    // TODO: I'm getting "not assignable" typescript errors here
     this.users = store.select('users');
     this.selectedUser = store.select('selectedUser');
   }
@@ -119,7 +120,7 @@ export class RJDropDown {
           <rj-drop-down></rj-drop-down>
         </div>
     </div>
-    <rj-tab *ngFor="#session of context.sessions;trackBy:track" [session]="session" [class]="mdlClasses"></rj-tab>
+    <rj-tab *ngFor="let session of context.sessions;trackBy:track" [session]="session" [class]="mdlClasses"></rj-tab>
     `
 })
 export class MainContext {

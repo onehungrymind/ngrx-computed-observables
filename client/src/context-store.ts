@@ -1,6 +1,12 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Reducer, Action, Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+
+// TODO: when I use the below code, I get an "Observable_1.Observable.combineLatest
+// is not a function" error
+// import {Observable} from 'rxjs/Observable';
+// import 'rxjs/add/operator/combineLatest';
+
+import {Observable} from 'rxjs/Rx';
 
 export interface AppStore {
   context: Context;
@@ -118,7 +124,7 @@ contextActionMap.set(UPDATE_CAPABILITY, (state: any = [], action: Action) => {
 
 // REDUCER
 export const sessions: Reducer<Array<Session>> = (state: any = [], action: Action) => {
-  let actionMethod = contextActionMap.get(action.type);
+  let actionMethod: any = contextActionMap.get(action.type);
   return actionMethod ? actionMethod(state, action) : state;
 };
 
